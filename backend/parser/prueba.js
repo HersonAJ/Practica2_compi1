@@ -1,50 +1,43 @@
-// prueba.js - Test del parser de Wison
+// prueba.js - Test del parser + semántico
 const parser = require('./wison');
+const { analizarSemantica } = require('./semantico');
 
-const entrada = `
+// =============================================
+// TEST 2: Entrada con errores semánticos
+// =============================================
+console.log("\n=== TEST 2: Entrada con errores ===");
+const entradaConErrores = `
 Wison ¿
 Lex {:
-    /** Esto es un comentario de bloque */
-    # Terminales simples
-    Terminal $_Una_A    <- 'a' ;
-    Terminal $_Mas      <- '+' ;
-    Terminal $_Punto    <- '.' ;
-    Terminal $_P_Ab     <- '(' ;
-    Terminal $_P_Ce     <- ')' ;
-    Terminal $_FIN      <- 'FIN' ;
-
-    # Rangos
-    Terminal $_Letra    <- [aA-zZ] ;
-    Terminal $_NUMERO   <- [0-9] ;
-
-    # Operadores unarios
-    Terminal $_NUMEROS   <- [0-9]* ;
-    Terminal $_NUMEROS_2 <- [0-9]+ ;
-    Terminal $_NUMEROS_3 <- [0-9]? ;
-
-    # Terminal combinado con concatenación y referencias
-    Terminal $_Decimal  <- ([0-9]*)($_Punto)($_NUMEROS_2) ;
+    Terminal $_A   <- 'a' ;
 :}
 Syntax {{:
-    No_Terminal %_Prod_A ;
-    No_Terminal %_Prod_B ;
-    No_Terminal %_Prod_C ;
     No_Terminal %_S ;
-
-    Initial_Sim %_S ;
-
-    %_S      <= %_Prod_A $_FIN ;
-    %_Prod_A <= $_P_Ab %_Prod_B $_P_Ce ;
-    %_Prod_B <= %_Prod_B %_Prod_C | %_Prod_C ;
-    %_Prod_C <= $_Una_A $_Mas $_Una_A ;
+    No_Terminal %_S ;
+    %_S  <= %_E $_B ;
+    %_E  <= $_A $_NOEXISTE ;
 :}}
 ?Wison
 `;
 
+
+console.log("=== TEST 2: Entrada inválida ===");
+
+let ast1;
 try {
-    const ast = parser.parse(entrada);
-    console.log("=== AST GENERADO ===");
-    console.log(JSON.stringify(ast, null, 2));
+    ast1 = parser.parse(entradaConErrores);
+    console.log("Parseo OK");
+    console.log(JSON.stringify(ast1, null, 2));
 } catch (e) {
-    console.error("Error al parsear:", e.message);
+    console.error("Error en PARSER:", e.message);
+}
+
+if (ast1) {
+    try {
+        const resultado1 = analizarSemantica(ast1);
+        console.log("Válido:", resultado1.valido);
+        console.log("Errores:", resultado1.errores);
+    } catch (e) {
+        console.error("Error en SEMANTICO:", e.message);
+    }
 }
