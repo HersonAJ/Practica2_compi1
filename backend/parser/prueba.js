@@ -1,43 +1,40 @@
-// prueba.js - Test del parser + semántico
+// prueba.js - Test del lexer dinámico
 const parser = require('./wison');
 const { analizarSemantica } = require('./semantico');
+const { construirTodosAFDs, tokenizar } = require('./lexer-dinamico');
 
-// =============================================
-// TEST 2: Entrada con errores semánticos
-// =============================================
-console.log("\n=== TEST 2: Entrada con errores ===");
-const entradaConErrores = `
+// Test 2: Rangos y operadores
+console.log("\n=== TEST 2: Rangos y operadores ===");
+const entrada2 = `
 Wison ¿
 Lex {:
-    Terminal $_A   <- 'a' ;
+    Terminal $_Num    <- [0-9]+ ;
+    Terminal $_Letra  <- [aA-zZ] ;
+    Terminal $_Mas    <- '+' ;
 :}
 Syntax {{:
     No_Terminal %_S ;
-    No_Terminal %_S ;
-    %_S  <= %_E $_B ;
-    %_E  <= $_A $_NOEXISTE ;
+    Initial_Sim %_S ;
+    %_S <= $_Num $_Mas $_Num ;
 :}}
 ?Wison
 `;
 
+const ast2 = parser.parse(entrada2);
+const afds2 = construirTodosAFDs(ast2.terminales);
+const orden2 = Object.keys(ast2.terminales);
 
-console.log("=== TEST 2: Entrada inválida ===");
-
-let ast1;
-try {
-    ast1 = parser.parse(entradaConErrores);
-    console.log("Parseo OK");
-    console.log(JSON.stringify(ast1, null, 2));
-} catch (e) {
-    console.error("Error en PARSER:", e.message);
+console.log("Tokenizando '123+456':");
+const res2 = tokenizar('123+456', afds2, orden2);
+for (const tok of res2.tokens) {
+    console.log(`  [${tok.tipo}] "${tok.valor}" (pos ${tok.posicion})`);
 }
 
-if (ast1) {
-    try {
-        const resultado1 = analizarSemantica(ast1);
-        console.log("Válido:", resultado1.valido);
-        console.log("Errores:", resultado1.errores);
-    } catch (e) {
-        console.error("Error en SEMANTICO:", e.message);
-    }
+console.log("\nTokenizando '9+a':");
+const res3 = tokenizar('9+a', afds2, orden2);
+for (const tok of res3.tokens) {
+    console.log(`  [${tok.tipo}] "${tok.valor}" (pos ${tok.posicion})`);
+}
+for (const err of res3.errores) {
+    console.log(`  ERROR: ${err.mensaje}`);
 }
