@@ -1,40 +1,52 @@
-// prueba.js - Test del lexer dinámico
+// prueba.js - Test flujo completo con lexer simplificado
 const parser = require('./wison');
 const { analizarSemantica } = require('./semantico');
-const { construirTodosAFDs, tokenizar } = require('./lexer-dinamico');
+const { tokenizar } = require('./lexer-dinamico');
+const { construirLL1, imprimirTabla } = require('./ll1');
+const { ParserLL1, mostrarArbol } = require('./parser-ll1');
 
-// Test 2: Rangos y operadores
-console.log("\n=== TEST 2: Rangos y operadores ===");
-const entrada2 = `
+const entrada = `
 Wison ¿
 Lex {:
-    Terminal $_Num    <- [0-9]+ ;
-    Terminal $_Letra  <- [aA-zZ] ;
-    Terminal $_Mas    <- '+' ;
+    Terminal $_A   <- 'a' ;
+    Terminal $_Mas <- '+' ;
+    Terminal $_FIN <- 'FIN' ;
 :}
 Syntax {{:
     No_Terminal %_S ;
+    No_Terminal %_E ;
+    No_Terminal %_Ep ;
     Initial_Sim %_S ;
-    %_S <= $_Num $_Mas $_Num ;
+    %_S  <= %_E $_FIN ;
+    %_E  <= $_A %_Ep ;
+    %_Ep <= $_Mas $_A %_Ep | ;
 :}}
 ?Wison
 `;
 
-const ast2 = parser.parse(entrada2);
-const afds2 = construirTodosAFDs(ast2.terminales);
-const orden2 = Object.keys(ast2.terminales);
+// Paso 1: Parsear Wison
+const ast = parser.parse(entrada);
+console.log("Parseo OK");
 
-console.log("Tokenizando '123+456':");
-const res2 = tokenizar('123+456', afds2, orden2);
-for (const tok of res2.tokens) {
-    console.log(`  [${tok.tipo}] "${tok.valor}" (pos ${tok.posicion})`);
-}
+// Paso 2: Semántico
+const sem = analizarSemantica(ast);
+console.log("Semántico:", sem.valido);
 
-console.log("\nTokenizando '9+a':");
-const res3 = tokenizar('9+a', afds2, orden2);
-for (const tok of res3.tokens) {
-    console.log(`  [${tok.tipo}] "${tok.valor}" (pos ${tok.posicion})`);
-}
-for (const err of res3.errores) {
-    console.log(`  ERROR: ${err.mensaje}`);
+// Paso 3: LL(1)
+const ll1 = construirLL1(ast);
+imprimirTabla(ll1, ast.terminales);
+
+// Paso 4: Tokenizar y parsear
+if (ll1.esLL1) {
+    const miParser = new ParserLL1(ll1.tabla, ast.simboloInicial, ast.terminales);
+
+    console.log("\n=== Parsear 'a+a+aFIN' ===");
+    const { tokens } = tokenizar('a+a+aFIN', ast.terminales);
+    console.log("Tokens:", tokens.map(t => t.tipo).join(', '));
+
+    const resultado = miParser.analizar(tokens);
+    console.log("Aceptada:", resultado.aceptada);
+    if (resultado.aceptada) {
+        mostrarArbol(resultado.arbol);
+    }
 }
