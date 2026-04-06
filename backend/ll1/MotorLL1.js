@@ -1,6 +1,6 @@
 //genera la tabla usando los primeros y siguientes de cada produccion y detecta colisiones 
 
-const CalculadorPrimero = require('../CalculadorPrimero');
+const CalculadorPrimero = require('./CalculadorPrimero');
 const CalculadorSiguiente = require('./CalculadorSiguiente');
 const ConstructorTablaM = require('./ConstructorTablaM');
  

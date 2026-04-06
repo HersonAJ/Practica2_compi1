@@ -1,5 +1,5 @@
 // para cada terminal en PRIMERO agregar por transicion, la produccion al simbolo 
-const CalculadorPrimero = require('../CalculadorPrimero');
+const CalculadorPrimero = require('./CalculadorPrimero');
 const ErrorWison = require('../errores/ErrorWison');
  
 class ConstructorTablaM {

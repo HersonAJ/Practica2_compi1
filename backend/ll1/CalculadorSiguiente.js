@@ -1,5 +1,5 @@
 //calcular siguientes
-const CalculadorPrimero = require('../CalculadorPrimero');
+const CalculadorPrimero = require('./CalculadorPrimero');
  
 class CalculadorSiguiente {
     constructor(producciones, noTerminales, simboloInicial, primero) {
