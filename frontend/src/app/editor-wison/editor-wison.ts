@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { WisonService } from '../wison-service';
 import { RespuestaCompilar, ErrorWison } from '../models/wison.models';
@@ -11,6 +11,8 @@ import { flush } from '@angular/core/testing';
   styleUrl: './editor-wison.css',
 })
 export class EditorWison {
+
+  @Output() compilacionExitosa = new EventEmitter<void>();
   
   codigo: string = '';
   nombreAnalizador: string = '';
@@ -32,6 +34,10 @@ export class EditorWison {
       next: (res) => {
         this. compilando = false;
         this.resultado = res;
+
+        if (res.exito) {
+          this.compilacionExitosa.emit();
+        }
 
         if (!res.exito) {
           this.errores = res.errores || res.colisiones || [];

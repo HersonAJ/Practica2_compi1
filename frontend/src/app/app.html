@@ -1,4 +1,17 @@
-<!
-<!DOCTYPE html>
-<router-outlet></router-outlet>
->
+<div class="app-container">
+  <header class="app-header">
+    <h1>Wison - Generador de Analizadores LL(1)</h1>
+    <p>Práctica 2 - Compiladores 1</p>
+  </header>
+
+  <div class="app-layout">
+    <div class="panel-izquierdo">
+      <app-editor-wison (compilacionExitosa)="onCompilacionExitosa()"></app-editor-wison>
+    </div>
+
+    <div class="panel-derecho">
+      <app-lista-analizadores (analizadorSeleccionado)="onAnalizadorSeleccionado($event)"></app-lista-analizadores>
+      <app-analizador-cadena [analizador]="analizadorActivo"></app-analizador-cadena>
+    </div>
+  </div>
+</div>

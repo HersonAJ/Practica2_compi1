@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { WisonService } from '../wison-service';
 import { Analizador, RespuestaAnalizar, NodoArbol, Token, ErrorWison } from '../models/wison.models';
+import { ArbolDerivacion } from '../arbol-derivacion/arbol-derivacion';
 
 @Component({
   selector: 'app-analizador-cadena',
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, ArbolDerivacion],
   templateUrl: './analizador-cadena.html',
   styleUrl: './analizador-cadena.css',
 })

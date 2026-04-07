@@ -1,0 +1,13 @@
+.arbol-container {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  overflow-x: auto;
+  background: white;
+  border-radius: 4px;
+}
+
+.arbol-container :deep(svg) {
+  max-width: 100%;
+  height: auto;
+}
