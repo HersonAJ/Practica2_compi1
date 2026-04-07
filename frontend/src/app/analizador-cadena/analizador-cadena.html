@@ -1,0 +1,91 @@
+<div class="cadena-container">
+  <h2>Probar cadena</h2>
+
+  @if (!analizador) {
+    <p class="mensaje-vacio">Selecciona un analizador de la lista para probar cadenas.</p>
+  }
+
+  @if (analizador) {
+    <div class="info-analizador">
+      Usando: <strong>{{ analizador.nombre }}</strong>
+      | Inicio: {{ analizador.simboloInicial }}
+      | Terminales: {{ analizador.terminales.join(', ') }}
+    </div>
+
+    <div class="toolbar">
+      <input
+        type="text"
+        class="input-cadena"
+        placeholder="Escribe la cadena a analizar..."
+        [(ngModel)]="cadena"
+        (keyup.enter)="analizar()"
+      />
+      <button class="btn btn-analizar" (click)="analizar()" [disabled]="analizando">
+        {{ analizando ? 'Analizando...' : 'Analizar' }}
+      </button>
+      <button class="btn btn-limpiar" (click)="limpiar()">Limpiar</button>
+    </div>
+
+    <!-- Tokens encontrados -->
+    @if (tokens.length > 0) {
+      <div class="seccion-tokens">
+        <h3>Tokens</h3>
+        <div class="tokens-lista">
+          @for (tok of tokens; track $index) {
+            <span class="token-badge">{{ tok.tipo }}: "{{ tok.valor }}"</span>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Resultado -->
+    @if (aceptada !== null) {
+      <div class="resultado" [class.aceptada]="aceptada" [class.rechazada]="!aceptada">
+        @if (aceptada) {
+          <h3>✓ Cadena aceptada</h3>
+        } @else {
+          <h3>✕ Cadena rechazada</h3>
+        }
+      </div>
+    }
+
+    <!-- Árbol de derivación -->
+    @if (arbol) {
+      <div class="seccion-arbol">
+        <h3>Árbol de derivación</h3>
+        <div class="arbol-visual">
+          <ng-container *ngTemplateOutlet="nodoTemplate; context: { nodo: arbol, nivel: 0 }"></ng-container>
+        </div>
+      </div>
+
+      <ng-template #nodoTemplate let-nodo="nodo" let-nivel="nivel">
+        <div class="arbol-nodo" [style.margin-left.px]="nivel * 25">
+          @if (nodo.esTerminal) {
+            <span class="nodo-terminal">
+              @if (nodo.valor === 'ε') {
+                ε
+              } @else {
+                {{ nodo.nombre }}: "{{ nodo.valor }}"
+              }
+            </span>
+          } @else {
+            <span class="nodo-no-terminal">{{ nodo.nombre }}</span>
+          }
+        </div>
+        @for (hijo of nodo.hijos; track $index) {
+          <ng-container *ngTemplateOutlet="nodoTemplate; context: { nodo: hijo, nivel: nivel + 1 }"></ng-container>
+        }
+      </ng-template>
+    }
+
+    <!-- Errores -->
+    @if (errores.length > 0) {
+      <div class="seccion-errores">
+        <h3>Errores</h3>
+        @for (err of errores; track $index) {
+          <p class="error-item">[{{ err.tipo }}] {{ err.mensaje }}</p>
+        }
+      </div>
+    }
+  }
+</div>

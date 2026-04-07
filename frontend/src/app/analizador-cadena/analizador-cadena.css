@@ -1,0 +1,166 @@
+.cadena-container {
+  padding: 20px;
+}
+
+h2 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+}
+
+.mensaje-vacio {
+  color: #95a5a6;
+  font-style: italic;
+}
+
+.info-analizador {
+  padding: 10px 15px;
+  background: #eaf2f8;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 13px;
+  font-family: monospace;
+  color: #2c3e50;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.input-cadena {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 15px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-analizar {
+  background: #8e44ad;
+  color: white;
+}
+
+.btn-analizar:hover:not(:disabled) {
+  background: #7d3c98;
+}
+
+.btn-analizar:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+.btn-limpiar {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-limpiar:hover {
+  background: #c0392b;
+}
+
+.seccion-tokens {
+  margin-top: 15px;
+}
+
+.seccion-tokens h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+}
+
+.tokens-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.token-badge {
+  padding: 4px 10px;
+  background: #2c3e50;
+  color: #ecf0f1;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.resultado {
+  margin-top: 15px;
+  padding: 12px 15px;
+  border-radius: 4px;
+}
+
+.resultado.aceptada {
+  background: #f0faf0;
+  border: 1px solid #27ae60;
+  color: #27ae60;
+}
+
+.resultado.rechazada {
+  background: #fdf0f0;
+  border: 1px solid #e74c3c;
+  color: #e74c3c;
+}
+
+.resultado h3 {
+  margin: 0;
+}
+
+.seccion-arbol {
+  margin-top: 15px;
+  padding: 15px;
+  background: #1e1e1e;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.seccion-arbol h3 {
+  margin: 0 0 10px 0;
+  color: #d4d4d4;
+}
+
+.arbol-visual {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+.arbol-nodo {
+  padding: 2px 0;
+}
+
+.nodo-terminal {
+  color: #e6c07b;
+}
+
+.nodo-no-terminal {
+  color: #61afef;
+  font-weight: bold;
+}
+
+.seccion-errores {
+  margin-top: 15px;
+  padding: 15px;
+  background: #fdf0f0;
+  border: 1px solid #e74c3c;
+  border-radius: 4px;
+}
+
+.seccion-errores h3 {
+  margin: 0 0 10px 0;
+  color: #e74c3c;
+}
+
+.error-item {
+  margin: 4px 0;
+  font-family: monospace;
+  font-size: 13px;
+  color: #c0392b;
+}
