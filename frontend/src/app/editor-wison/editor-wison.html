@@ -1,0 +1,91 @@
+<div class="editor-container">
+  <h2>Editor Wison</h2>
+
+  <div class="toolbar">
+    <input
+      type="text"
+      class="input-nombre"
+      placeholder="Nombre del analizador"
+      [(ngModel)]="nombreAnalizador"
+    />
+
+    <label class="btn btn-archivo">
+      Cargar archivo
+      <input type="file" accept=".wson,.txt" (change)="cargarArchivo($event)" hidden />
+    </label>
+
+    <button class="btn btn-compilar" (click)="compilar()" [disabled]="compilando || !codigo.trim()">
+      {{ compilando ? 'Compilando...' : 'Compilar' }}
+    </button>
+
+    <button class="btn btn-limpiar" (click)="limpiar()">Limpiar</button>
+  </div>
+
+  <textarea
+    class="editor-codigo"
+    [(ngModel)]="codigo"
+    placeholder="Escribe tu código Wison aquí..."
+    spellcheck="false"
+  ></textarea>
+
+  <!-- Resultado exitoso -->
+  @if (resultado && resultado.exito) {
+    <div class="resultado exito">
+      <h3>✓ Analizador "{{ resultado.nombre }}" creado correctamente</h3>
+
+      <div class="info-grid">
+        <div class="info-bloque">
+          <h4>PRIMERO</h4>
+          @for (nt of objectKeys(resultado.primero); track nt) {
+            <p><strong>{{ nt }}</strong> = &#123; {{ resultado.primero[nt].join(', ') }} &#125;</p>
+          }
+        </div>
+
+        <div class="info-bloque">
+          <h4>SIGUIENTE</h4>
+          @for (nt of objectKeys(resultado.siguiente); track nt) {
+            <p><strong>{{ nt }}</strong> = &#123; {{ resultado.siguiente[nt].join(', ') }} &#125;</p>
+          }
+        </div>
+      </div>
+
+      <div class="info-bloque">
+        <h4>Tabla M</h4>
+        <div class="tabla-scroll">
+          <table class="tabla-m">
+            <thead>
+              <tr>
+                <th></th>
+                @for (t of resultado.ast.terminales; track t) {
+                  <th>{{ t }}</th>
+                }
+                <th>$</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (nt of objectKeys(resultado.tabla); track nt) {
+                <tr>
+                  <td class="celda-nt">{{ nt }}</td>
+                  @for (t of resultado.ast.terminales; track t) {
+                    <td>{{ getCeldaTabla(nt, t) }}</td>
+                  }
+                  <td>{{ getCeldaTabla(nt, '$') }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Errores -->
+  @if (errores.length > 0) {
+    <div class="resultado error">
+      <h3>Errores encontrados</h3>
+      @for (err of errores; track $index) {
+        <p class="error-item">[{{ err.tipo }}] {{ err.mensaje }}</p>
+      }
+    </div>
+  }
+</div>

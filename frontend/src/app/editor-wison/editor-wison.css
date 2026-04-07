@@ -1,0 +1,165 @@
+.editor-container {
+  padding: 20px;
+}
+
+h2 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.input-nombre {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 200px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.btn-compilar {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-compilar:hover:not(:disabled) {
+  background: #219a52;
+}
+
+.btn-compilar:disabled {
+  background: #95a5a6;
+  cursor: not-allowed;
+}
+
+.btn-archivo {
+  background: #3498db;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-archivo:hover {
+  background: #2980b9;
+}
+
+.btn-limpiar {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-limpiar:hover {
+  background: #c0392b;
+}
+
+.editor-codigo {
+  width: 100%;
+  height: 300px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  tab-size: 4;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+
+.editor-codigo::placeholder {
+  color: #666;
+}
+
+.resultado {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+.resultado.exito {
+  background: #f0faf0;
+  border: 1px solid #27ae60;
+}
+
+.resultado.error {
+  background: #fdf0f0;
+  border: 1px solid #e74c3c;
+}
+
+.resultado h3 {
+  margin: 0 0 10px 0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.info-bloque {
+  background: white;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.info-bloque h4 {
+  margin: 0 0 8px 0;
+  color: #2c3e50;
+}
+
+.info-bloque p {
+  margin: 4px 0;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.tabla-scroll {
+  overflow-x: auto;
+}
+
+.tabla-m {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.tabla-m th, .tabla-m td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.tabla-m th {
+  background: #2c3e50;
+  color: white;
+}
+
+.celda-nt {
+  font-weight: bold;
+  background: #f5f5f5;
+}
+
+.error-item {
+  margin: 4px 0;
+  font-family: monospace;
+  font-size: 13px;
+  color: #c0392b;
+}
