@@ -1,0 +1,24 @@
+<div class="lista-container">
+  <div class="lista-header">
+    <h2>Analizadores disponibles</h2>
+    <button class="btn btn-refrescar" (click)="cargar()">Refrescar</button>
+  </div>
+
+  @if (analizadores.length === 0) {
+    <p class="mensaje-vacio">No hay analizadores creados. Compila un codigo Wison primero.</p>
+  }
+
+  @for (a of analizadores; track a.nombre) {
+    <div
+      class="analizador-card"
+      [class.seleccionado]="seleccionado === a.nombre"
+      (click)="seleccionar(a)"
+    >
+      <div class="card-info">
+        <span class="card-nombre">{{ a.nombre }}</span>
+        <span class="card-detalle">Inicio: {{ a.simboloInicial }} | NT: {{ a.noTerminales.length }} | T: {{ a.terminales.length }}</span>
+      </div>
+      <button class="btn-eliminar" (click)="eliminar(a.nombre, $event)">✕</button>
+    </div>
+  }
+</div>
