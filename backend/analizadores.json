@@ -1,6 +1,6 @@
 {
-  "analizador_1775666493084": {
-    "nombre": "analizador_1775666493084",
+  "conflictivo grande1": {
+    "nombre": "conflictivo grande1",
     "ast": {
       "terminales": {
         "$_SUMA": {
@@ -458,8 +458,8 @@
       "erroresSintacticos": []
     }
   },
-  "correcto": {
-    "nombre": "correcto",
+  "entradaLimpia": {
+    "nombre": "entradaLimpia",
     "ast": {
       "terminales": {
         "$_SUMA": {
