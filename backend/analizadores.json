@@ -1,0 +1,861 @@
+{
+  "analizador_1775666493084": {
+    "nombre": "analizador_1775666493084",
+    "ast": {
+      "terminales": {
+        "$_SUMA": {
+          "tipo": "string",
+          "valor": "+"
+        },
+        "$_RESTA": {
+          "tipo": "string",
+          "valor": "-"
+        },
+        "$_MULT": {
+          "tipo": "string",
+          "valor": "*"
+        },
+        "$_DIV": {
+          "tipo": "string",
+          "valor": "/"
+        },
+        "$_PAR_A": {
+          "tipo": "string",
+          "valor": "("
+        },
+        "$_PAR_C": {
+          "tipo": "string",
+          "valor": ")"
+        },
+        "$_LLAVE_A": {
+          "tipo": "string",
+          "valor": "{"
+        },
+        "$_LLAVE_C": {
+          "tipo": "string",
+          "valor": "}"
+        },
+        "$_IGUAL": {
+          "tipo": "string",
+          "valor": "="
+        },
+        "$_PYC": {
+          "tipo": "string",
+          "valor": ";"
+        },
+        "$_COMA": {
+          "tipo": "string",
+          "valor": ","
+        },
+        "$_PUNTO": {
+          "tipo": "string",
+          "valor": "."
+        },
+        "$_MAYOR": {
+          "tipo": "string",
+          "valor": ">"
+        },
+        "$_MENOR": {
+          "tipo": "string",
+          "valor": "<"
+        },
+        "$_IF": {
+          "tipo": "string",
+          "valor": "if"
+        },
+        "$_ELSE": {
+          "tipo": "string",
+          "valor": "else"
+        },
+        "$_WHILE": {
+          "tipo": "string",
+          "valor": "while"
+        },
+        "$_RETURN": {
+          "tipo": "string",
+          "valor": "return"
+        },
+        "$_PRINT": {
+          "tipo": "string",
+          "valor": "print"
+        },
+        "$_INT": {
+          "tipo": "string",
+          "valor": "int"
+        },
+        "$_FLOAT": {
+          "tipo": "string",
+          "valor": "float"
+        },
+        "$_FIN": {
+          "tipo": "string",
+          "valor": "FIN"
+        },
+        "$_LETRA": {
+          "tipo": "rango",
+          "valor": "aA-zZ"
+        },
+        "$_DIGITO": {
+          "tipo": "rango",
+          "valor": "0-9"
+        },
+        "$_DIGITOS": {
+          "tipo": "kleene",
+          "expresion": {
+            "tipo": "rango",
+            "valor": "0-9"
+          }
+        },
+        "$_LETRAS": {
+          "tipo": "kleene",
+          "expresion": {
+            "tipo": "rango",
+            "valor": "aA-zZ"
+          }
+        },
+        "$_NUMERO": {
+          "tipo": "positiva",
+          "expresion": {
+            "tipo": "rango",
+            "valor": "0-9"
+          }
+        },
+        "$_PALABRA": {
+          "tipo": "positiva",
+          "expresion": {
+            "tipo": "rango",
+            "valor": "aA-zZ"
+          }
+        },
+        "$_DIG_OPC": {
+          "tipo": "opcional",
+          "expresion": {
+            "tipo": "rango",
+            "valor": "0-9"
+          }
+        },
+        "$_ID": {
+          "tipo": "concatenacion",
+          "izq": {
+            "tipo": "grupo",
+            "expresion": {
+              "tipo": "rango",
+              "valor": "aA-zZ"
+            }
+          },
+          "der": {
+            "tipo": "grupo",
+            "expresion": {
+              "tipo": "kleene",
+              "expresion": {
+                "tipo": "rango",
+                "valor": "aA-zZ"
+              }
+            }
+          }
+        },
+        "$_DECIMAL": {
+          "tipo": "concatenacion",
+          "izq": {
+            "tipo": "concatenacion",
+            "izq": {
+              "tipo": "grupo",
+              "expresion": {
+                "tipo": "positiva",
+                "expresion": {
+                  "tipo": "rango",
+                  "valor": "0-9"
+                }
+              }
+            },
+            "der": {
+              "tipo": "grupo",
+              "expresion": {
+                "tipo": "referencia",
+                "valor": "$_PUNTO"
+              }
+            }
+          },
+          "der": {
+            "tipo": "grupo",
+            "expresion": {
+              "tipo": "positiva",
+              "expresion": {
+                "tipo": "rango",
+                "valor": "0-9"
+              }
+            }
+          }
+        },
+        "$_NUM_SIGN": {
+          "tipo": "concatenacion",
+          "izq": {
+            "tipo": "opcional",
+            "expresion": {
+              "tipo": "grupo",
+              "expresion": {
+                "tipo": "referencia",
+                "valor": "$_RESTA"
+              }
+            }
+          },
+          "der": {
+            "tipo": "grupo",
+            "expresion": {
+              "tipo": "positiva",
+              "expresion": {
+                "tipo": "rango",
+                "valor": "0-9"
+              }
+            }
+          }
+        }
+      },
+      "noTerminales": [
+        "%_PROGRAMA",
+        "%_LISTA_SENT",
+        "%_LISTA_SENT_P",
+        "%_SENTENCIA",
+        "%_DECLARACION",
+        "%_TIPO",
+        "%_ASIGNACION",
+        "%_SI_ENTONCES",
+        "%_SINO",
+        "%_MIENTRAS",
+        "%_IMPRIMIR",
+        "%_RETORNAR",
+        "%_BLOQUE",
+        "%_EXPRESION",
+        "%_EXPRESION_P",
+        "%_TERMINO",
+        "%_TERMINO_P",
+        "%_FACTOR",
+        "%_COMPARACION",
+        "%_COMPARACION_P",
+        "%_OP_REL",
+        "%_LISTA_ARGS",
+        "%_LISTA_ARGS_P"
+      ],
+      "simboloInicial": "%_PROGRAMA",
+      "producciones": {
+        "%_PROGRAMA": [
+          [
+            "%_LISTA_SENT",
+            "$_FIN"
+          ]
+        ],
+        "%_LISTA_SENT": [
+          [
+            "%_SENTENCIA",
+            "%_LISTA_SENT_P"
+          ]
+        ],
+        "%_LISTA_SENT_P": [
+          [
+            "%_SENTENCIA",
+            "%_LISTA_SENT_P"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_SENTENCIA": [
+          [
+            "%_DECLARACION"
+          ],
+          [
+            "%_ASIGNACION"
+          ],
+          [
+            "%_SI_ENTONCES"
+          ],
+          [
+            "%_MIENTRAS"
+          ],
+          [
+            "%_IMPRIMIR"
+          ],
+          [
+            "%_RETORNAR"
+          ],
+          [
+            "%_BLOQUE"
+          ]
+        ],
+        "%_DECLARACION": [
+          [
+            "%_TIPO",
+            "$_ID",
+            "$_PYC"
+          ]
+        ],
+        "%_TIPO": [
+          [
+            "$_INT"
+          ],
+          [
+            "$_FLOAT"
+          ]
+        ],
+        "%_ASIGNACION": [
+          [
+            "$_ID",
+            "$_IGUAL",
+            "%_EXPRESION",
+            "$_PYC"
+          ]
+        ],
+        "%_SI_ENTONCES": [
+          [
+            "$_IF",
+            "$_PAR_A",
+            "%_COMPARACION",
+            "$_PAR_C",
+            "%_BLOQUE",
+            "%_SINO"
+          ]
+        ],
+        "%_SINO": [
+          [
+            "$_ELSE",
+            "%_BLOQUE"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_MIENTRAS": [
+          [
+            "$_WHILE",
+            "$_PAR_A",
+            "%_COMPARACION",
+            "$_PAR_C",
+            "%_BLOQUE"
+          ]
+        ],
+        "%_IMPRIMIR": [
+          [
+            "$_PRINT",
+            "$_PAR_A",
+            "%_LISTA_ARGS",
+            "$_PAR_C",
+            "$_PYC"
+          ]
+        ],
+        "%_RETORNAR": [
+          [
+            "$_RETURN",
+            "%_EXPRESION",
+            "$_PYC"
+          ]
+        ],
+        "%_BLOQUE": [
+          [
+            "$_LLAVE_A",
+            "%_LISTA_SENT",
+            "$_LLAVE_C"
+          ]
+        ],
+        "%_COMPARACION": [
+          [
+            "%_EXPRESION",
+            "%_COMPARACION_P"
+          ]
+        ],
+        "%_COMPARACION_P": [
+          [
+            "%_OP_REL",
+            "%_EXPRESION"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_OP_REL": [
+          [
+            "$_MAYOR"
+          ],
+          [
+            "$_MENOR"
+          ]
+        ],
+        "%_EXPRESION": [
+          [
+            "%_TERMINO",
+            "%_EXPRESION_P"
+          ]
+        ],
+        "%_EXPRESION_P": [
+          [
+            "$_SUMA",
+            "%_TERMINO",
+            "%_EXPRESION_P"
+          ],
+          [
+            "$_RESTA",
+            "%_TERMINO",
+            "%_EXPRESION_P"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_TERMINO": [
+          [
+            "%_FACTOR",
+            "%_TERMINO_P"
+          ]
+        ],
+        "%_TERMINO_P": [
+          [
+            "$_MULT",
+            "%_FACTOR",
+            "%_TERMINO_P"
+          ],
+          [
+            "$_DIV",
+            "%_FACTOR",
+            "%_TERMINO_P"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_FACTOR": [
+          [
+            "$_PAR_A",
+            "%_EXPRESION",
+            "$_PAR_C"
+          ],
+          [
+            "$_NUMERO"
+          ],
+          [
+            "$_DECIMAL"
+          ],
+          [
+            "$_ID"
+          ]
+        ],
+        "%_LISTA_ARGS": [
+          [
+            "%_EXPRESION",
+            "%_LISTA_ARGS_P"
+          ]
+        ],
+        "%_LISTA_ARGS_P": [
+          [
+            "$_COMA",
+            "%_EXPRESION",
+            "%_LISTA_ARGS_P"
+          ],
+          [
+            "ε"
+          ]
+        ]
+      },
+      "erroresLexicos": [],
+      "erroresSintacticos": []
+    }
+  },
+  "correcto": {
+    "nombre": "correcto",
+    "ast": {
+      "terminales": {
+        "$_SUMA": {
+          "tipo": "string",
+          "valor": "+"
+        },
+        "$_RESTA": {
+          "tipo": "string",
+          "valor": "-"
+        },
+        "$_MULT": {
+          "tipo": "string",
+          "valor": "*"
+        },
+        "$_DIV": {
+          "tipo": "string",
+          "valor": "/"
+        },
+        "$_PAR_A": {
+          "tipo": "string",
+          "valor": "("
+        },
+        "$_PAR_C": {
+          "tipo": "string",
+          "valor": ")"
+        },
+        "$_LLAVE_A": {
+          "tipo": "string",
+          "valor": "{"
+        },
+        "$_LLAVE_C": {
+          "tipo": "string",
+          "valor": "}"
+        },
+        "$_IGUAL": {
+          "tipo": "string",
+          "valor": "="
+        },
+        "$_PYC": {
+          "tipo": "string",
+          "valor": ";"
+        },
+        "$_COMA": {
+          "tipo": "string",
+          "valor": ","
+        },
+        "$_PUNTO": {
+          "tipo": "string",
+          "valor": "."
+        },
+        "$_MAYOR": {
+          "tipo": "string",
+          "valor": ">"
+        },
+        "$_MENOR": {
+          "tipo": "string",
+          "valor": "<"
+        },
+        "$_IF": {
+          "tipo": "string",
+          "valor": "if"
+        },
+        "$_ELSE": {
+          "tipo": "string",
+          "valor": "else"
+        },
+        "$_WHILE": {
+          "tipo": "string",
+          "valor": "while"
+        },
+        "$_RETURN": {
+          "tipo": "string",
+          "valor": "return"
+        },
+        "$_PRINT": {
+          "tipo": "string",
+          "valor": "print"
+        },
+        "$_INT": {
+          "tipo": "string",
+          "valor": "int"
+        },
+        "$_FLOAT": {
+          "tipo": "string",
+          "valor": "float"
+        },
+        "$_FIN": {
+          "tipo": "string",
+          "valor": "FIN"
+        },
+        "$_NUMERO": {
+          "tipo": "positiva",
+          "expresion": {
+            "tipo": "rango",
+            "valor": "0-9"
+          }
+        },
+        "$_DECIMAL": {
+          "tipo": "concatenacion",
+          "izq": {
+            "tipo": "concatenacion",
+            "izq": {
+              "tipo": "grupo",
+              "expresion": {
+                "tipo": "positiva",
+                "expresion": {
+                  "tipo": "rango",
+                  "valor": "0-9"
+                }
+              }
+            },
+            "der": {
+              "tipo": "grupo",
+              "expresion": {
+                "tipo": "referencia",
+                "valor": "$_PUNTO"
+              }
+            }
+          },
+          "der": {
+            "tipo": "grupo",
+            "expresion": {
+              "tipo": "positiva",
+              "expresion": {
+                "tipo": "rango",
+                "valor": "0-9"
+              }
+            }
+          }
+        },
+        "$_ID": {
+          "tipo": "concatenacion",
+          "izq": {
+            "tipo": "grupo",
+            "expresion": {
+              "tipo": "rango",
+              "valor": "aA-zZ"
+            }
+          },
+          "der": {
+            "tipo": "grupo",
+            "expresion": {
+              "tipo": "kleene",
+              "expresion": {
+                "tipo": "rango",
+                "valor": "aA-zZ"
+              }
+            }
+          }
+        }
+      },
+      "noTerminales": [
+        "%_PROGRAMA",
+        "%_LISTA_SENT",
+        "%_LISTA_SENT_P",
+        "%_SENTENCIA",
+        "%_DECLARACION",
+        "%_TIPO",
+        "%_ASIGNACION",
+        "%_SI_ENTONCES",
+        "%_SINO",
+        "%_MIENTRAS",
+        "%_IMPRIMIR",
+        "%_RETORNAR",
+        "%_BLOQUE",
+        "%_EXPRESION",
+        "%_EXPRESION_P",
+        "%_TERMINO",
+        "%_TERMINO_P",
+        "%_FACTOR",
+        "%_COMPARACION",
+        "%_COMPARACION_P",
+        "%_OP_REL",
+        "%_LISTA_ARGS",
+        "%_LISTA_ARGS_P"
+      ],
+      "simboloInicial": "%_PROGRAMA",
+      "producciones": {
+        "%_PROGRAMA": [
+          [
+            "%_LISTA_SENT",
+            "$_FIN"
+          ]
+        ],
+        "%_LISTA_SENT": [
+          [
+            "%_SENTENCIA",
+            "%_LISTA_SENT_P"
+          ]
+        ],
+        "%_LISTA_SENT_P": [
+          [
+            "%_SENTENCIA",
+            "%_LISTA_SENT_P"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_SENTENCIA": [
+          [
+            "%_DECLARACION"
+          ],
+          [
+            "%_ASIGNACION"
+          ],
+          [
+            "%_SI_ENTONCES"
+          ],
+          [
+            "%_MIENTRAS"
+          ],
+          [
+            "%_IMPRIMIR"
+          ],
+          [
+            "%_RETORNAR"
+          ],
+          [
+            "%_BLOQUE"
+          ]
+        ],
+        "%_DECLARACION": [
+          [
+            "%_TIPO",
+            "$_ID",
+            "$_PYC"
+          ]
+        ],
+        "%_TIPO": [
+          [
+            "$_INT"
+          ],
+          [
+            "$_FLOAT"
+          ]
+        ],
+        "%_ASIGNACION": [
+          [
+            "$_ID",
+            "$_IGUAL",
+            "%_EXPRESION",
+            "$_PYC"
+          ]
+        ],
+        "%_SI_ENTONCES": [
+          [
+            "$_IF",
+            "$_PAR_A",
+            "%_COMPARACION",
+            "$_PAR_C",
+            "%_BLOQUE",
+            "%_SINO"
+          ]
+        ],
+        "%_SINO": [
+          [
+            "$_ELSE",
+            "%_BLOQUE"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_MIENTRAS": [
+          [
+            "$_WHILE",
+            "$_PAR_A",
+            "%_COMPARACION",
+            "$_PAR_C",
+            "%_BLOQUE"
+          ]
+        ],
+        "%_IMPRIMIR": [
+          [
+            "$_PRINT",
+            "$_PAR_A",
+            "%_LISTA_ARGS",
+            "$_PAR_C",
+            "$_PYC"
+          ]
+        ],
+        "%_RETORNAR": [
+          [
+            "$_RETURN",
+            "%_EXPRESION",
+            "$_PYC"
+          ]
+        ],
+        "%_BLOQUE": [
+          [
+            "$_LLAVE_A",
+            "%_LISTA_SENT",
+            "$_LLAVE_C"
+          ]
+        ],
+        "%_COMPARACION": [
+          [
+            "%_EXPRESION",
+            "%_COMPARACION_P"
+          ]
+        ],
+        "%_COMPARACION_P": [
+          [
+            "%_OP_REL",
+            "%_EXPRESION"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_OP_REL": [
+          [
+            "$_MAYOR"
+          ],
+          [
+            "$_MENOR"
+          ]
+        ],
+        "%_EXPRESION": [
+          [
+            "%_TERMINO",
+            "%_EXPRESION_P"
+          ]
+        ],
+        "%_EXPRESION_P": [
+          [
+            "$_SUMA",
+            "%_TERMINO",
+            "%_EXPRESION_P"
+          ],
+          [
+            "$_RESTA",
+            "%_TERMINO",
+            "%_EXPRESION_P"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_TERMINO": [
+          [
+            "%_FACTOR",
+            "%_TERMINO_P"
+          ]
+        ],
+        "%_TERMINO_P": [
+          [
+            "$_MULT",
+            "%_FACTOR",
+            "%_TERMINO_P"
+          ],
+          [
+            "$_DIV",
+            "%_FACTOR",
+            "%_TERMINO_P"
+          ],
+          [
+            "ε"
+          ]
+        ],
+        "%_FACTOR": [
+          [
+            "$_PAR_A",
+            "%_EXPRESION",
+            "$_PAR_C"
+          ],
+          [
+            "$_NUMERO"
+          ],
+          [
+            "$_DECIMAL"
+          ],
+          [
+            "$_ID"
+          ]
+        ],
+        "%_LISTA_ARGS": [
+          [
+            "%_EXPRESION",
+            "%_LISTA_ARGS_P"
+          ]
+        ],
+        "%_LISTA_ARGS_P": [
+          [
+            "$_COMA",
+            "%_EXPRESION",
+            "%_LISTA_ARGS_P"
+          ],
+          [
+            "ε"
+          ]
+        ]
+      },
+      "erroresLexicos": [],
+      "erroresSintacticos": []
+    }
+  }
+}

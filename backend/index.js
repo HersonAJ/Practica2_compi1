@@ -4,7 +4,8 @@
 
 const express = require('express');
 const cors = require('cors');
-
+const Persistencia = require('./Persistencia')
+const persistencia = new Persistencia();
 const parser = require('./wison-parser/wison');
 const AnalizadorSemantico = require('./semantico/AnalizadorSemantico');
 const Tokenizador = require('./lexer/Tokenizador');
@@ -19,8 +20,27 @@ app.use(cors());
 app.use(express.json());
 
 // Almacen de analizadores creados
-// Cada analizador tiene: nombre, ast, motor LL1
+// Cargar analizadores guardados y reconstruir motores LL(1)
+const analizadoresGuardados = persistencia.cargar();
 const analizadores = {};
+
+for (const [nombre, datos] of Object.entries(analizadoresGuardados)) {
+    try {
+        const motor = new MotorLL1(datos.ast);
+        motor.construir();
+        if (motor.esLL1) {
+            analizadores[nombre] = {
+                nombre: datos.nombre,
+                ast: datos.ast,
+                motor
+            };
+        }
+    } catch (e) {
+        console.error(`Error al reconstruir analizador "${nombre}":`, e.message);
+    }
+}
+
+console.log(`${Object.keys(analizadores).length} analizador(es) cargado(s) desde disco.`);
 
 //api post/compilar
 // Respuesta: { exito, ast, primero, siguiente, tabla, colisiones, errores }
@@ -64,14 +84,6 @@ app.post('/api/compilar', (req, res) => {
         ...resSem.errores.map(e => ({ tipo: e.tipo, mensaje: e.mensaje }))
     ];
 
-    if (!resSem.valido) {
-        return res.json({
-            exito: false,
-            errores: resSem.errores.map(e => ({ tipo: e.tipo, mensaje: e.mensaje }))
-        });
-    }
-
-    // Paso 3: Construir motor LL(1)
   // Paso 3: Construir motor LL(1)
     const motor = new MotorLL1(ast);
     motor.construir();
@@ -107,6 +119,7 @@ app.post('/api/compilar', (req, res) => {
             ast,
             motor
         };
+        persistencia.guardar(analizadores);
     }
 
     res.json({
@@ -198,6 +211,7 @@ app.delete('/api/analizadores/:nombre', (req, res) => {
 
     if (analizadores[nombre]) {
         delete analizadores[nombre];
+        persistencia.guardar(analizadores);
         res.json({ exito: true, mensaje: `Analizador "${nombre}" eliminado.` });
     } else {
         res.status(404).json({ exito: false, mensaje: `Analizador "${nombre}" no encontrado.` });
