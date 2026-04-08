@@ -49,9 +49,20 @@ app.post('/api/compilar', (req, res) => {
         });
     }
 
+        const erroresParser = [
+        ...(ast.erroresLexicos || []),
+        ...(ast.erroresSintacticos || [])
+    ];
+
     // Paso 2: Analisis semantico
     const semantico = new AnalizadorSemantico(ast);
     const resSem = semantico.analizar();
+
+        // Juntar todos los errores
+    const todosErrores = [
+        ...erroresParser,
+        ...resSem.errores.map(e => ({ tipo: e.tipo, mensaje: e.mensaje }))
+    ];
 
     if (!resSem.valido) {
         return res.json({
@@ -61,10 +72,10 @@ app.post('/api/compilar', (req, res) => {
     }
 
     // Paso 3: Construir motor LL(1)
+  // Paso 3: Construir motor LL(1)
     const motor = new MotorLL1(ast);
     motor.construir();
 
-    // Preparar respuesta de PRIMERO y SIGUIENTE como objetos planos
     const primero = {};
     for (const [nt, conj] of Object.entries(motor.primero)) {
         primero[nt] = [...conj];
@@ -75,7 +86,6 @@ app.post('/api/compilar', (req, res) => {
         siguiente[nt] = [...conj];
     }
 
-    // Preparar tabla M como objeto plano
     const tabla = {};
     for (const [nt, fila] of Object.entries(motor.tabla)) {
         tabla[nt] = {};
@@ -84,8 +94,14 @@ app.post('/api/compilar', (req, res) => {
         }
     }
 
-    // Si es LL(1), guardar el analizador
-    if (motor.esLL1) {
+    // Agregar colisiones a los errores
+    const colisionesArr = motor.colisiones.map(c => ({ tipo: c.tipo, mensaje: c.mensaje }));
+    todosErrores.push(...colisionesArr);
+
+    // Solo guardar si no hay errores de ningún tipo
+    const exitoTotal = todosErrores.length === 0 && motor.esLL1;
+
+    if (exitoTotal) {
         analizadores[nombreAnalizador] = {
             nombre: nombreAnalizador,
             ast,
@@ -94,7 +110,7 @@ app.post('/api/compilar', (req, res) => {
     }
 
     res.json({
-        exito: motor.esLL1,
+        exito: exitoTotal,
         nombre: nombreAnalizador,
         ast: {
             terminales: Object.keys(ast.terminales),
@@ -105,8 +121,9 @@ app.post('/api/compilar', (req, res) => {
         primero,
         siguiente,
         tabla,
-        colisiones: motor.colisiones.map(c => ({ tipo: c.tipo, mensaje: c.mensaje })),
-        esLL1: motor.esLL1
+        colisiones: colisionesArr,
+        esLL1: motor.esLL1,
+        errores: todosErrores
     });
 });
 

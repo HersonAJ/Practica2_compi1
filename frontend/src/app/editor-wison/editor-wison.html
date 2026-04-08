@@ -21,12 +21,23 @@
     <button class="btn btn-limpiar" (click)="limpiar()">Limpiar</button>
   </div>
 
-  <textarea
-    class="editor-codigo"
-    [(ngModel)]="codigo"
-    placeholder="Escribe tu código Wison aquí..."
-    spellcheck="false"
-  ></textarea>
+  <!-- Editor con números de línea -->
+  <div class="editor-wrapper">
+    <div class="lineas" #lineasRef>
+      @for (num of numerosLinea; track num) {
+        <span class="numero-linea" [class.linea-error]="esLineaConError(num)">{{ num }}</span>
+      }
+    </div>
+    <textarea
+      class="editor-codigo"
+      [(ngModel)]="codigo"
+      (input)="actualizarLineas()"
+      (scroll)="sincronizarScroll($event)"
+      placeholder="Escribe tu código Wison aquí..."
+      spellcheck="false"
+      #editorRef
+    ></textarea>
+  </div>
 
   <!-- Resultado exitoso -->
   @if (resultado && resultado.exito) {
@@ -79,13 +90,32 @@
     </div>
   }
 
-  <!-- Errores -->
+  <!-- Tabla de errores -->
   @if (errores.length > 0) {
     <div class="resultado error">
-      <h3>Errores encontrados</h3>
-      @for (err of errores; track $index) {
-        <p class="error-item">[{{ err.tipo }}] {{ err.mensaje }}</p>
-      }
+      <h3>Errores encontrados ({{ errores.length }})</h3>
+      <div class="tabla-scroll">
+        <table class="tabla-errores">
+<thead>
+            <tr>
+              <th class="col-linea">Línea</th>
+              <th class="col-tipo">Tipo</th>
+              <th class="col-mensaje">Descripción</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (err of errores; track $index) {
+              <tr>
+                <td class="col-linea">{{ extraerLinea(err.mensaje) }}</td>
+                <td class="col-tipo">
+                  <span class="tipo-badge" [class]="getTipoClase(err.tipo)">{{ err.tipo }}</span>
+                </td>
+                <td class="col-mensaje">{{ err.mensaje }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
   }
 </div>
