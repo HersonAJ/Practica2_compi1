@@ -1,6 +1,7 @@
 export interface ErrorWison {
   tipo: string;
   mensaje: string;
+  linea?: number;
 }
 
 export interface RespuestaCompilar {

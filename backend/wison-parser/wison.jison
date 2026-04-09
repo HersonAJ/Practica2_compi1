@@ -1,4 +1,5 @@
 %{
+    var ErrorWison = require('../errores/ErrorWison'); 
     var erroresLexicos = [];
     var erroresSintacticos = [];
 %}
@@ -44,22 +45,27 @@
 
 <<EOF>>                               return 'EOF';
 
-.                                     {
-                                          var linea = yylineno + 1;
-                                          var ultimoError = erroresLexicos[erroresLexicos.length - 1];
-                                          if (ultimoError && ultimoError._linea === linea && ultimoError._acumulando) {
-                                              ultimoError._texto += yytext;
-                                              ultimoError.mensaje = 'Texto no reconocido "' + ultimoError._texto + '" en linea ' + linea;
-                                          } else {
-                                              erroresLexicos.push({
-                                                  tipo: 'lexico',
-                                                  mensaje: 'Texto no reconocido "' + yytext + '" en linea ' + linea,
-                                                  _texto: yytext,
-                                                  _linea: linea,
-                                                  _acumulando: true
-                                              });
-                                          }
-                                      }
+.                                          {
+                                        var linea = yylineno + 1;
+                                        var ultimoError = erroresLexicos[erroresLexicos.length - 1];
+
+                                        if (ultimoError && ultimoError.linea === linea && ultimoError._acumulando) {
+                                            ultimoError._texto += yytext;
+                                            ultimoError.mensaje = 'Texto no reconocido "' + ultimoError._texto + '"';
+                                        } else {
+                                            let nuevoError = new ErrorWison(
+                                                'lexico',
+                                                'Texto no reconocido "' + yytext + '"',
+                                                linea
+                                            );
+
+
+                                            nuevoError._texto = yytext;
+                                            nuevoError._acumulando = true;
+
+                                            erroresLexicos.push(nuevoError);
+                                        }
+                                    }
 
 /lex
 
@@ -88,10 +94,13 @@ programa
         }
     | WISON ABRE_WISON bloque_lexico bloque_sintactico error EOF
         {
-            erroresSintacticos.push({
-                tipo: 'sintactico',
-                mensaje: 'Se esperaba "?Wison" para cerrar la estructura Wison.'
-            });
+                erroresSintacticos.push(
+                    new ErrorWison(
+                        'sintactico',
+                        'Se esperaba "?Wison" para cerrar la estructura Wison.',
+                        @1.first_line
+                    )
+                );
             $$ = {
                 terminales: $3,
                 noTerminales: $4.noTerminales,
@@ -136,10 +145,13 @@ declaracion_terminal
         { $$ = { nombre: $2, expresion: $4 }; }
     | TERMINAL error PUNTO_COMA
         {
-            erroresSintacticos.push({
-                tipo: 'sintactico',
-                mensaje: 'Se esperaba un identificador de terminal ($_nombre) y una expresion despues de "Terminal" en linea ' + @1.first_line + '.'
-            });
+            erroresSintacticos.push(
+                new ErrorWison(
+                    'sintactico',
+                    'Se esperaba un identificador de terminal ($_nombre) y una expresion despues de "Terminal".',
+                    @1.first_line
+                )
+            );
             $$ = null;
         }
     ;
@@ -237,10 +249,13 @@ declaracion_no_terminal
         { $$ = $2; }
     | NO_TERMINAL error PUNTO_COMA
         {
-            erroresSintacticos.push({
-                tipo: 'sintactico',
-                mensaje: 'Se esperaba un identificador de no terminal (%_nombre) despues de "No_Terminal" en linea ' + @1.first_line + '.'
-            });
+            erroresSintacticos.push(
+                new ErrorWison(
+                    'sintactico',
+                    'Se esperaba un identificador de no terminal (%_nombre) despues de "No_Terminal".',
+                    @1.first_line
+                )
+            );
             $$ = null;
         }
     ;
@@ -251,10 +266,13 @@ declaracion_simbolo_inicial
         { $$ = $2; }
     | INITIAL_SIM error PUNTO_COMA
         {
-            erroresSintacticos.push({
-                tipo: 'sintactico',
-                mensaje: 'Se esperaba un identificador de no terminal (%_nombre) despues de "Initial_Sim" en linea ' + @1.first_line + '.'
-            });
+                erroresSintacticos.push(
+                    new ErrorWison(
+                        'sintactico',
+                        'Se esperaba un identificador de no terminal (%_nombre) despues de "Initial_Sim".',
+                        @1.first_line
+                    )
+                );
             $$ = null;
         }
     ;
@@ -268,10 +286,13 @@ produccion
         { $$ = { nombre: $1, alternativas: $3 }; }
     | PERCENT_ID error PUNTO_COMA
         {
-            erroresSintacticos.push({
-                tipo: 'sintactico',
-                mensaje: 'Se esperaba "<=" seguido de una produccion valida para "' + $1 + '" en linea ' + @1.first_line + '.'
-            });
+                erroresSintacticos.push(
+                    new ErrorWison(
+                        'sintactico',
+                        'Se esperaba "<=" seguido de una produccion valida para "' + $1 + '".',
+                        @1.first_line
+                    )
+                );
             $$ = null;
         }
     ;

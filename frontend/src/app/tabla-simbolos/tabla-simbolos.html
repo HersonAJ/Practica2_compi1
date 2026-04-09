@@ -1,0 +1,28 @@
+@if (resultado && resultado.exito) {
+  <div class="tabla-container">
+    <table class="tabla-simbolos">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Tipo</th>
+          <th>Categoría</th>
+          <th>Definición / Producciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of simbolos; track s.nombre) {
+          <tr [class.fila-terminal]="s.tipo === 'Terminal'" [class.fila-inicial]="s.tipo === 'No Terminal (Inicial)'">
+            <td class="celda-nombre">{{ s.nombre }}</td>
+            <td>
+              <span class="tipo-badge" [class.badge-terminal]="s.tipo === 'Terminal'" [class.badge-nt]="s.tipo === 'No Terminal'" [class.badge-inicial]="s.tipo === 'No Terminal (Inicial)'">
+                {{ s.tipo }}
+              </span>
+            </td>
+            <td>{{ s.categoria }}</td>
+            <td class="celda-def">{{ s.definicion }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

@@ -51,6 +51,9 @@
         <button class="btn btn-ver" (click)="mostrarModalTabla = true">
           Ver Tabla M
         </button>
+        <button class="btn btn-ver" (click)="mostrarModalSimbolos = true">
+          Ver Tabla de Símbolos
+        </button>
       </div>
     </div>
 
@@ -97,6 +100,10 @@
         </tbody>
       </table>
     </app-modal>
+    <!-- Modal Tabla de Símbolos -->
+    <app-modal titulo="Tabla de Símbolos" [visible]="mostrarModalSimbolos" (cerrar)="mostrarModalSimbolos = false">
+      <app-tabla-simbolos [resultado]="resultado"></app-tabla-simbolos>
+    </app-modal>
   }
 
   <!-- Tabla de errores -->
@@ -115,7 +122,7 @@
           <tbody>
             @for (err of errores; track $index) {
               <tr>
-                <td class="col-linea">{{ extraerLinea(err.mensaje) }}</td>
+              <td class="col-linea">{{ err.linea ?? '-' }}</td>
                 <td class="col-tipo">
                   <span class="tipo-badge" [class]="getTipoClase(err.tipo)">{{ err.tipo }}</span>
                 </td>

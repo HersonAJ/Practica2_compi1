@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { WisonService } from '../wison-service';
 import { RespuestaCompilar, ErrorWison } from '../models/wison.models';
 import { Modal } from '../modal/modal';
+import { TablaSimbolos } from '../tabla-simbolos/tabla-simbolos';
 
 @Component({
   selector: 'app-editor-wison',
-  imports: [FormsModule, Modal],
+  imports: [FormsModule, Modal,TablaSimbolos],
   templateUrl: './editor-wison.html',
   styleUrl: './editor-wison.css',
 })
@@ -31,6 +32,7 @@ export class EditorWison implements AfterViewInit {
   mostrarPrimero: boolean = false;
   mostrarSiguiente: boolean = false;
   mostrarTablaM: boolean = false;
+  mostrarModalSimbolos: boolean = false;
 
   constructor(private wisonService: WisonService) {}
 
