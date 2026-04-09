@@ -2,10 +2,11 @@ import { Component, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit }
 import { FormsModule } from '@angular/forms';
 import { WisonService } from '../wison-service';
 import { RespuestaCompilar, ErrorWison } from '../models/wison.models';
+import { Modal } from '../modal/modal';
 
 @Component({
   selector: 'app-editor-wison',
-  imports: [FormsModule],
+  imports: [FormsModule, Modal],
   templateUrl: './editor-wison.html',
   styleUrl: './editor-wison.css',
 })
@@ -16,6 +17,9 @@ export class EditorWison implements AfterViewInit {
   @ViewChild('editorRef') editorRef!: ElementRef<HTMLTextAreaElement>;
   @ViewChild('lineasRef') lineasRef!: ElementRef<HTMLDivElement>;
 
+  mostrarModalTabla: boolean = false;
+  mostrarModalPrimSig: boolean = false;
+
   codigo: string = '';
   nombreAnalizador: string = '';
   resultado: RespuestaCompilar | null = null;
@@ -23,6 +27,10 @@ export class EditorWison implements AfterViewInit {
   compilando: boolean = false;
   numerosLinea: number[] = [1];
   lineasConError: Set<number> = new Set();
+
+  mostrarPrimero: boolean = false;
+  mostrarSiguiente: boolean = false;
+  mostrarTablaM: boolean = false;
 
   constructor(private wisonService: WisonService) {}
 

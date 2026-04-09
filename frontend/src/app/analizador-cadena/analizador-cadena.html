@@ -50,12 +50,15 @@
     }
 
     <!-- arbol de derivación -->
-      @if (arbol) {
-        <div class="seccion-arbol">
-          <h3>Árbol de derivación</h3>
-          <app-arbol-derivacion [arbol]="arbol"></app-arbol-derivacion>
-        </div>
-      }
+@if (arbol) {
+      <button class="btn btn-ver-arbol" (click)="mostrarModalArbol = true">
+        Ver árbol de derivación
+      </button>
+
+      <app-modal titulo="Árbol de Derivación" [visible]="mostrarModalArbol" (cerrar)="mostrarModalArbol = false">
+        <app-arbol-derivacion [arbol]="arbol"></app-arbol-derivacion>
+      </app-modal>
+    }
 
     <!-- Errores -->
     @if (errores.length > 0) {

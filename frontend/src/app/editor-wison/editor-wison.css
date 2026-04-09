@@ -271,3 +271,76 @@ h2 {
   background: #95a5a6;
   color: white;
 }
+
+/* === Secciones colapsables === */
+.seccion-colapsable {
+  margin-bottom: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.seccion-header {
+  padding: 8px 12px;
+  background: #f5f5f5;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  color: #2c3e50;
+  user-select: none;
+}
+
+.seccion-header:hover {
+  background: #eee;
+}
+
+.seccion-contenido {
+  padding: 10px 12px;
+  max-height: 250px;
+  overflow-y: auto;
+  background: white;
+}
+
+.seccion-contenido p {
+  margin: 4px 0;
+  font-family: monospace;
+  font-size: 13px;
+}
+.botones-resultado {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-ver {
+  background: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-ver:hover {
+  background: #2980b9;
+}
+
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.modal-bloque h4 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 5px;
+}
+
+.modal-bloque p {
+  margin: 4px 0;
+  font-family: monospace;
+  font-size: 14px;
+}

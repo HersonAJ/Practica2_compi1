@@ -117,14 +117,20 @@ h2 {
 .seccion-arbol {
   margin-top: 15px;
   padding: 15px;
-  background: #1e1e1e;
+  background: white;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  overflow-x: auto;
+  max-height: 400px;
+  overflow: auto;
 }
 
 .seccion-arbol h3 {
   margin: 0 0 10px 0;
-  color: #d4d4d4;
+  color: #2c3e50;
+  position: sticky;
+  top: 0;
+  background: white;
+  padding-bottom: 5px;
 }
 
 .arbol-visual {
@@ -163,4 +169,18 @@ h2 {
   font-family: monospace;
   font-size: 13px;
   color: #c0392b;
+}
+.btn-ver-arbol {
+  margin-top: 15px;
+  background: #8e44ad;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-ver-arbol:hover {
+  background: #7d3c98;
 }

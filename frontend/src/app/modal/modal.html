@@ -1,0 +1,13 @@
+@if (visible) {
+  <div class="modal-fondo" (click)="onFondoClick($event)">
+    <div class="modal-ventana">
+      <div class="modal-header">
+        <h3>{{ titulo }}</h3>
+        <button class="modal-cerrar" (click)="onCerrar()">✕</button>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+}

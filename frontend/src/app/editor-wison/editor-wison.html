@@ -40,54 +40,63 @@
   </div>
 
   <!-- Resultado exitoso -->
-  @if (resultado && resultado.exito) {
+@if (resultado && resultado.exito) {
     <div class="resultado exito">
       <h3>✓ Analizador "{{ resultado.nombre }}" creado correctamente</h3>
 
-      <div class="info-grid">
-        <div class="info-bloque">
+      <div class="botones-resultado">
+        <button class="btn btn-ver" (click)="mostrarModalPrimSig = true">
+          Ver PRIMERO / SIGUIENTE
+        </button>
+        <button class="btn btn-ver" (click)="mostrarModalTabla = true">
+          Ver Tabla M
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal PRIMERO y SIGUIENTE -->
+    <app-modal titulo="PRIMERO y SIGUIENTE" [visible]="mostrarModalPrimSig" (cerrar)="mostrarModalPrimSig = false">
+      <div class="modal-grid">
+        <div class="modal-bloque">
           <h4>PRIMERO</h4>
           @for (nt of objectKeys(resultado.primero); track nt) {
             <p><strong>{{ nt }}</strong> = &#123; {{ resultado.primero[nt].join(', ') }} &#125;</p>
           }
         </div>
-
-        <div class="info-bloque">
+        <div class="modal-bloque">
           <h4>SIGUIENTE</h4>
           @for (nt of objectKeys(resultado.siguiente); track nt) {
             <p><strong>{{ nt }}</strong> = &#123; {{ resultado.siguiente[nt].join(', ') }} &#125;</p>
           }
         </div>
       </div>
+    </app-modal>
 
-      <div class="info-bloque">
-        <h4>Tabla M</h4>
-        <div class="tabla-scroll">
-          <table class="tabla-m">
-            <thead>
-              <tr>
-                <th></th>
-                @for (t of resultado.ast.terminales; track t) {
-                  <th>{{ t }}</th>
-                }
-                <th>$</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (nt of objectKeys(resultado.tabla); track nt) {
-                <tr>
-                  <td class="celda-nt">{{ nt }}</td>
-                  @for (t of resultado.ast.terminales; track t) {
-                    <td>{{ getCeldaTabla(nt, t) }}</td>
-                  }
-                  <td>{{ getCeldaTabla(nt, '$') }}</td>
-                </tr>
+    <!-- Modal Tabla M -->
+    <app-modal titulo="Tabla de Análisis Sintáctico (Tabla M)" [visible]="mostrarModalTabla" (cerrar)="mostrarModalTabla = false">
+      <table class="tabla-m">
+        <thead>
+          <tr>
+            <th></th>
+            @for (t of resultado.ast.terminales; track t) {
+              <th>{{ t }}</th>
+            }
+            <th>$</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (nt of objectKeys(resultado.tabla); track nt) {
+            <tr>
+              <td class="celda-nt">{{ nt }}</td>
+              @for (t of resultado.ast.terminales; track t) {
+                <td>{{ getCeldaTabla(nt, t) }}</td>
               }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+              <td>{{ getCeldaTabla(nt, '$') }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </app-modal>
   }
 
   <!-- Tabla de errores -->

@@ -4,16 +4,18 @@ import { CommonModule } from '@angular/common';
 import { WisonService } from '../wison-service';
 import { Analizador, RespuestaAnalizar, NodoArbol, Token, ErrorWison } from '../models/wison.models';
 import { ArbolDerivacion } from '../arbol-derivacion/arbol-derivacion';
+import { Modal } from '../modal/modal';
 
 @Component({
   selector: 'app-analizador-cadena',
-  imports: [FormsModule, CommonModule, ArbolDerivacion],
+  imports: [FormsModule, CommonModule, ArbolDerivacion, Modal],
   templateUrl: './analizador-cadena.html',
   styleUrl: './analizador-cadena.css',
 })
 export class AnalizadorCadena {
 
   @Input() analizador: Analizador | null = null;
+  mostrarModalArbol: boolean = false;
 
   cadena: string = '';
   analizando: boolean = false;
