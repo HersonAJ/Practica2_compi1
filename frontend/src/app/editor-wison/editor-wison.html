@@ -14,7 +14,7 @@
       <input type="file" accept=".wson,.txt" (change)="cargarArchivo($event)" hidden />
     </label>
 
-    <button class="btn btn-compilar" (click)="compilar()" [disabled]="compilando || !codigo.trim()">
+<button class="btn btn-compilar" (click)="compilar()" [disabled]="compilando || !codigo.trim() || !nombreAnalizador.trim()">
       {{ compilando ? 'Compilando...' : 'Compilar' }}
     </button>
 

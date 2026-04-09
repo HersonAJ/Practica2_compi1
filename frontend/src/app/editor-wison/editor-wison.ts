@@ -54,10 +54,15 @@ export class EditorWison implements AfterViewInit {
     return this.lineasConError.has(linea);
   }
 
-  compilar() {
+compilar() {
     if (!this.codigo.trim()) return;
 
-    const nombre = this.nombreAnalizador.trim() || 'analizador_' + Date.now();
+    if (!this.nombreAnalizador.trim()) {
+      this.errores = [{ tipo: 'general', mensaje: 'Ingresa un nombre para el analizador antes de compilar.' }];
+      return;
+    }
+
+    const nombre = this.nombreAnalizador.trim();
     this.compilando = true;
     this.errores = [];
     this.resultado = null;
@@ -71,6 +76,7 @@ export class EditorWison implements AfterViewInit {
         if (res.exito) {
           this.errores = [];
           this.lineasConError = new Set();
+          this.nombreAnalizador = '';  // Limpiar nombre despues de exito
           this.compilacionExitosa.emit();
         } else {
           this.errores = res.errores || res.colisiones || [];
